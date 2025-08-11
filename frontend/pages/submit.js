@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 
@@ -20,7 +20,7 @@ export default function Submit() {
 
   const cmsServiceUrl = process.env.NEXT_PUBLIC_CMS_SERVICE_URL || 'http://localhost:8002'
 
-  useState(() => {
+  useEffect(() => {
     loadCategories()
   }, [])
 
