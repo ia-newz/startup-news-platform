@@ -125,7 +125,7 @@ def get_submissions(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/submissions/{submission_id}/approve")
-def approve_submission(submission_id: str, approval: StoryApproval):
+async def approve_submission(submission_id: str, approval: StoryApproval):
     """Approve a submission and create a story"""
     try:
         # Get submission
@@ -134,7 +134,7 @@ def approve_submission(submission_id: str, approval: StoryApproval):
         if not submission_result.data:
             raise HTTPException(status_code=404, detail="Submission not found")
             
-        submission = submission_result.data
+        submission = submission_result.data[0]
         
         # Create story
         story_data = {
@@ -150,7 +150,7 @@ def approve_submission(submission_id: str, approval: StoryApproval):
         }
         
         story_result = supabase.table("stories").insert(story_data).execute()
-        story_id = story_result.data["id"]
+        story_id = story_result.data[0]["id"]
         
         # Handle company associations
         if approval.company_slugs:
@@ -190,7 +190,7 @@ def reject_submission(submission_id: str, reason: str = "Does not meet guideline
 
 # Stories Management
 @app.post("/editor/stories")
-def create_story(story: StoryCreate):
+async def create_story(story: StoryCreate):
     """Create a new story manually"""
     try:
         story_data = {
@@ -219,7 +219,7 @@ def create_story(story: StoryCreate):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.put("/editor/stories/{story_id}")
-def update_story(story_id: str, story: StoryUpdate):
+async def update_story(story_id: str, story: StoryUpdate):
     """Update an existing story"""
     try:
         # Build update data
@@ -526,7 +526,7 @@ async def link_story_to_companies(story_id: str, company_slugs: List[str], fallb
                 
                 result = supabase.table("companies").insert(company_data).execute()
                 if result.data:
-                    companies_to_link = [{"id": result.data["id"], "slug": slug}]
+                    companies_to_link = [{"id": result.data[0]["id"], "slug": slug}]
         
         # Create story-company links
         for company in companies_to_link:
