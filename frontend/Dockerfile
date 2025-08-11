@@ -9,6 +9,7 @@ RUN npm ci --only=production
 # Copy source code
 COPY . .
 
+RUN npm ci
 # Build the application
 RUN npm run build
 
