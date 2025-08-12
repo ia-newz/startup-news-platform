@@ -6,12 +6,14 @@ export default function Home() {
   const [stories, setStories] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0)
   const [viewMode, setViewMode] = useState('grid') // 'grid' or 'inshorts'
 
-  const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'http://localhost:8000'
+  // Use environment variables with fallbacks for production
+  const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-news-feed.onrender.com'
 
   useEffect(() => {
     loadCategories()
@@ -21,24 +23,82 @@ export default function Home() {
   const loadCategories = async () => {
     try {
       const response = await fetch(`${feedServiceUrl}/categories`)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
       const data = await response.json()
       setCategories([{ id: 'all', name: 'All Stories', color: '#0ea5e9', icon: '📰' }, ...data.categories])
     } catch (error) {
       console.error('Error loading categories:', error)
+      // Set default categories if API fails
+      setCategories([
+        { id: 'all', name: 'All Stories', color: '#0ea5e9', icon: '📰' },
+        { id: 'funding', name: 'Funding', color: '#10b981', icon: '💰' },
+        { id: 'product', name: 'Product Launch', color: '#3b82f6', icon: '🚀' },
+        { id: 'acquisition', name: 'Acquisition', color: '#8b5cf6', icon: '🤝' },
+        { id: 'ipo', name: 'IPO', color: '#f59e0b', icon: '📈' },
+        { id: 'partnership', name: 'Partnership', color: '#ef4444', icon: '🤝' },
+        { id: 'general', name: 'General', color: '#6b7280', icon: '📰' }
+      ])
     }
   }
 
   const loadStories = async () => {
     try {
+      setError(null)
       const url = selectedCategory === 'all' 
         ? `${feedServiceUrl}/stories`
         : `${feedServiceUrl}/stories?category=${selectedCategory}`
       
       const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
       setStories(data.stories || [])
     } catch (error) {
       console.error('Error loading stories:', error)
+      setError('Unable to load stories. Please try again later.')
+      // Set sample stories for demo purposes
+      setStories([
+        {
+          id: 1,
+          title: "Tech Startup Raises $10M Series A Funding",
+          summary: "Innovative AI-powered platform secures major investment to expand operations and accelerate product development across multiple markets.",
+          category: "funding",
+          published_date: new Date().toISOString(),
+          image_url: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=400&fit=crop",
+          likes: 42,
+          views: 156,
+          source_url: "#",
+          companies: [{ name: "TechCorp", slug: "techcorp", logo_url: null }]
+        },
+        {
+          id: 2,
+          title: "Revolutionary Mobile App Launches Beta Version",
+          summary: "Groundbreaking productivity app introduces AI-driven features that help users manage tasks more efficiently than ever before.",
+          category: "product",
+          published_date: new Date(Date.now() - 86400000).toISOString(),
+          image_url: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=400&fit=crop",
+          likes: 28,
+          views: 89,
+          source_url: "#",
+          companies: [{ name: "AppWorks", slug: "appworks", logo_url: null }]
+        },
+        {
+          id: 3,
+          title: "Major Acquisition in Fintech Sector",
+          summary: "Leading financial technology company acquires innovative startup to strengthen its digital payment solutions portfolio.",
+          category: "acquisition",
+          published_date: new Date(Date.now() - 172800000).toISOString(),
+          image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop",
+          likes: 35,
+          views: 123,
+          source_url: "#",
+          companies: [{ name: "FinTech Solutions", slug: "fintech-solutions", logo_url: null }]
+        }
+      ])
     } finally {
       setLoading(false)
     }
@@ -51,6 +111,12 @@ export default function Home() {
       loadStories()
     } catch (error) {
       console.error('Error liking story:', error)
+      // Optimistically update UI
+      setStories(prev => prev.map(story => 
+        story.id === storyId 
+          ? { ...story, likes: (story.likes || 0) + 1 }
+          : story
+      ))
     }
   }
 
@@ -92,7 +158,16 @@ export default function Home() {
         <title>Innovations Arena - Latest Startup News & Stories</title>
         <meta name="description" content="Get the latest startup news, funding announcements, and innovation stories in 60 seconds" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="keywords" content="startup news, funding, innovation, entrepreneurship, tech news" />
+        <meta name="author" content="Innovations Arena" />
+        <meta property="og:title" content="Innovations Arena - Latest Startup News & Stories" />
+        <meta property="og:description" content="Get the latest startup news, funding announcements, and innovation stories in 60 seconds" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://startup-news-frontend.onrender.com" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </Head>
 
       {/* Modern Header */}
@@ -138,6 +213,7 @@ export default function Home() {
                     ? 'bg-primary-100 text-primary-600' 
                     : 'text-secondary-400 hover:text-secondary-600'
                 }`}
+                title="Grid View"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -150,12 +226,13 @@ export default function Home() {
                     ? 'bg-primary-100 text-primary-600' 
                     : 'text-secondary-400 hover:text-secondary-600'
                 }`}
+                title="Inshorts View"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </button>
-              <Link href="/demo" className="p-2 rounded-lg text-secondary-400 hover:text-primary-600 hover:bg-primary-50 transition-all duration-200">
+              <Link href="/demo" className="p-2 rounded-lg text-secondary-400 hover:text-primary-600 hover:bg-primary-50 transition-all duration-200" title="Demo">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
@@ -166,6 +243,7 @@ export default function Home() {
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-lg text-secondary-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
+              aria-label="Toggle mobile menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
@@ -225,6 +303,19 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Error State */}
+        {error && (
+          <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-center">
+            <p className="text-red-700 mb-3">{error}</p>
+            <button 
+              onClick={loadStories}
+              className="text-red-600 hover:text-red-800 underline font-medium"
+            >
+              Try again
+            </button>
+          </div>
+        )}
+
         {/* Stories Content */}
         {loading ? (
           <div className="flex justify-center items-center py-20">
@@ -244,6 +335,7 @@ export default function Home() {
                     <button
                       onClick={prevStory}
                       className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-large flex items-center justify-center text-secondary-600 hover:text-primary-600 transition-all duration-200 hover:scale-110"
+                      aria-label="Previous story"
                     >
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -255,6 +347,7 @@ export default function Home() {
                     <button
                       onClick={nextStory}
                       className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-large flex items-center justify-center text-secondary-600 hover:text-primary-600 transition-all duration-200 hover:scale-110"
+                      aria-label="Next story"
                     >
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -342,6 +435,7 @@ export default function Home() {
                           <button
                             onClick={() => handleLike(stories[currentStoryIndex].id)}
                             className="flex items-center space-x-2 text-secondary-500 hover:text-red-500 transition-colors group"
+                            aria-label="Like story"
                           >
                             <span className="text-xl group-hover:scale-110 transition-transform">❤️</span>
                             <span className="font-semibold">{stories[currentStoryIndex].likes || 0}</span>
@@ -352,7 +446,7 @@ export default function Home() {
                           </span>
                         </div>
 
-                        {stories[currentStoryIndex].source_url && (
+                        {stories[currentStoryIndex].source_url && stories[currentStoryIndex].source_url !== '#' && (
                           <a
                             href={stories[currentStoryIndex].source_url}
                             target="_blank"
@@ -383,7 +477,7 @@ export default function Home() {
                 {stories.map((story, index) => (
                   <article 
                     key={story.id} 
-                    className="card-hover animate-fade-in"
+                    className="card-hover animate-fade-in group"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     {/* Story Image */}
@@ -463,6 +557,7 @@ export default function Home() {
                           <button
                             onClick={() => handleLike(story.id)}
                             className="flex items-center space-x-1 hover:text-red-500 transition-colors group"
+                            aria-label="Like story"
                           >
                             <span className="group-hover:scale-110 transition-transform">❤️</span>
                             <span className="font-medium">{story.likes || 0}</span>
@@ -473,7 +568,7 @@ export default function Home() {
                           </span>
                         </div>
 
-                        {story.source_url && (
+                        {story.source_url && story.source_url !== '#' && (
                           <a
                             href={story.source_url}
                             target="_blank"
@@ -494,7 +589,7 @@ export default function Home() {
         )}
 
         {/* Empty State */}
-        {!loading && stories.length === 0 && (
+        {!loading && stories.length === 0 && !error && (
           <div className="text-center py-20 animate-fade-in">
             <div className="text-8xl mb-6">📰</div>
             <h3 className="text-2xl font-bold text-secondary-900 mb-3">No stories yet</h3>
