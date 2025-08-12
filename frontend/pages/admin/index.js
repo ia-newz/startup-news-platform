@@ -17,12 +17,16 @@ export default function Submit() {
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [wordCount, setWordCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
 
   const cmsServiceUrl = process.env.NEXT_PUBLIC_CMS_SERVICE_URL || 'http://localhost:8002'
 
   useEffect(() => {
-    loadCategories()
-  }, [])
+    setMounted(true)
+    if (mounted) {
+      loadCategories()
+    }
+  }, [mounted])
 
   const loadCategories = async () => {
     try {
@@ -31,6 +35,15 @@ export default function Submit() {
       setCategories(data.categories || [])
     } catch (error) {
       console.error('Error loading categories:', error)
+      // Set default categories if API fails
+      setCategories([
+        { id: 'general', name: 'General', color: '#6b7280' },
+        { id: 'funding', name: 'Funding', color: '#10b981' },
+        { id: 'product', name: 'Product Launch', color: '#3b82f6' },
+        { id: 'acquisition', name: 'Acquisition', color: '#8b5cf6' },
+        { id: 'ipo', name: 'IPO', color: '#f59e0b' },
+        { id: 'partnership', name: 'Partnership', color: '#ef4444' }
+      ])
     }
   }
 
@@ -73,6 +86,18 @@ export default function Submit() {
   const handleTagsChange = (value) => {
     const tags = value.split(',').map(tag => tag.trim()).filter(tag => tag)
     updateForm('proposed_tags', tags)
+  }
+
+  // Prevent static generation for admin pages
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading admin panel...</p>
+        </div>
+      </div>
+    )
   }
 
   if (submitted) {
