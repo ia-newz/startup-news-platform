@@ -596,3 +596,7 @@ export default function Home() {
     </StaticExportWrapper>
   )
 }
+
+export async function getServerSideProps() {
+  return { props: {} }
+}
