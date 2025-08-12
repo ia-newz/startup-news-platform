@@ -30,8 +30,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
-RUN npm ci --only=production
+# Copy node_modules from build stage (this avoids npm ci issues)
+COPY --from=base /app/node_modules ./node_modules
 
 # Copy built application from build stage
 COPY --from=base /app/.next ./.next
