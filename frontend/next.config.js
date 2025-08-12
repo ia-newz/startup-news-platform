@@ -3,6 +3,8 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  // Disable static export for admin pages that need dynamic data
+  trailingSlash: false,
   images: {
     domains: ['localhost', 'supabase.co', 'example.com', 'images.unsplash.com'],
     unoptimized: false,
