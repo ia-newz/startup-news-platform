@@ -77,19 +77,20 @@ export default function Submit() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
-          <div className="text-green-600 text-6xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Story Submitted!</h2>
-          <p className="text-gray-600 mb-6">
+      <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50 flex items-center justify-center px-4">
+        <div className="card p-8 sm:p-12 max-w-lg w-full text-center animate-scale-in">
+          <div className="w-20 h-20 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-secondary-900 mb-4">Story Submitted!</h2>
+          <p className="text-secondary-600 mb-8 leading-relaxed">
             Thank you for your submission. Our editorial team will review it and publish if approved.
             You'll receive an email notification about the status.
           </p>
-          <div className="space-y-3">
-            <Link
-              href="/"
-              className="block w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
-            >
+          <div className="space-y-4">
+            <Link href="/" className="btn-primary block w-full">
               Back to Stories
             </Link>
             <button
@@ -107,7 +108,7 @@ export default function Submit() {
                 })
                 setWordCount(0)
               }}
-              className="block w-full text-gray-600 hover:text-gray-800 transition-colors"
+              className="btn-secondary block w-full"
             >
               Submit Another Story
             </button>
@@ -118,188 +119,252 @@ export default function Submit() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50">
       <Head>
-        <title>Submit Your Startup Story - StartupSnaps</title>
+        <title>Submit Your Startup Story - Innovations Arena</title>
         <meta name="description" content="Share your startup's latest news, funding, product launches, and milestones" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="glass border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="w-10 h-10 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-medium group-hover:shadow-large transition-all duration-300 transform group-hover:scale-110">
+              <span className="text-white font-bold text-lg">IA</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">StartupSnaps</span>
+            <div>
+              <span className="text-2xl font-bold text-gradient">Innovations Arena</span>
+              <p className="text-xs text-secondary-600 -mt-1">Startup News Platform</p>
+            </div>
           </Link>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Submit Your Startup Story</h1>
-            <p className="text-gray-600 leading-relaxed">
-              Share your startup's latest news, funding rounds, product launches, and milestones with our community. 
-              Stories are reviewed by our editorial team before publishing.
-            </p>
-          </div>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        {/* Hero Section */}
+        <div className="text-center mb-8 sm:mb-12 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary-900 mb-4">
+            Share Your <span className="text-gradient">Startup Story</span>
+          </h1>
+          <p className="text-lg text-secondary-600 max-w-2xl mx-auto leading-relaxed">
+            Share your startup's latest news, funding rounds, product launches, and milestones with our community. 
+            Stories are reviewed by our editorial team before publishing.
+          </p>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="card p-6 sm:p-8 lg:p-12 animate-slide-up">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.founder_name}
-                  onChange={(e) => updateForm('founder_name', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="John Doe"
-                />
-              </div>
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-secondary-900 flex items-center space-x-2">
+                <span className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+                <span>Personal Information</span>
+              </h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.founder_name}
+                    onChange={(e) => updateForm('founder_name', e.target.value)}
+                    className="input-field"
+                    placeholder="John Doe"
+                  />
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.founder_email}
-                  onChange={(e) => updateForm('founder_email', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="john@startup.com"
-                />
+                <div>
+                  <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.founder_email}
+                    onChange={(e) => updateForm('founder_email', e.target.value)}
+                    className="input-field"
+                    placeholder="john@startup.com"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Company Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Company Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.company_name}
-                  onChange={(e) => updateForm('company_name', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="Your Startup Inc."
-                />
-              </div>
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-secondary-900 flex items-center space-x-2">
+                <span className="w-8 h-8 bg-accent-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </span>
+                <span>Company Information</span>
+              </h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                    Company Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.company_name}
+                    onChange={(e) => updateForm('company_name', e.target.value)}
+                    className="input-field"
+                    placeholder="Your Startup Inc."
+                  />
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Company Website
-                </label>
-                <input
-                  type="url"
-                  value={formData.company_website}
-                  onChange={(e) => updateForm('company_website', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="https://yourstartup.com"
-                />
+                <div>
+                  <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                    Company Website
+                  </label>
+                  <input
+                    type="url"
+                    value={formData.company_website}
+                    onChange={(e) => updateForm('company_website', e.target.value)}
+                    className="input-field"
+                    placeholder="https://yourstartup.com"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Story Information */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Story Title *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.proposed_title}
-                onChange={(e) => updateForm('proposed_title', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                placeholder="Your Startup Raises $1M Seed Round"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Story Summary * (aim for 60-80 words)
-              </label>
-              <textarea
-                required
-                rows={5}
-                value={formData.proposed_summary}
-                onChange={(e) => updateForm('proposed_summary', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
-                placeholder="Write a concise, engaging summary of your news. Include key details like funding amount, investors, product features, or milestone numbers."
-              />
-              <div className="flex justify-between items-center mt-2">
-                <p className="text-sm text-gray-500">
-                  Word count: <span className={`font-medium ${wordCount >= 60 && wordCount <= 80 ? 'text-green-600' : 'text-gray-700'}`}>
-                    {wordCount}
-                  </span>
-                </p>
-                {wordCount > 0 && (
-                  <p className="text-xs text-gray-500">
-                    {wordCount < 60 ? `Add ${60 - wordCount} more words` : wordCount > 80 ? `Remove ${wordCount - 80} words` : 'Perfect length!'}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold text-secondary-900 flex items-center space-x-2">
+                <span className="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </span>
+                <span>Story Details</span>
+              </h3>
+              
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category *
-                </label>
-                <select
-                  required
-                  value={formData.proposed_category}
-                  onChange={(e) => updateForm('proposed_category', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                >
-                  {categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Tags (comma-separated)
+                <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                  Story Title *
                 </label>
                 <input
                   type="text"
-                  value={formData.proposed_tags.join(', ')}
-                  onChange={(e) => handleTagsChange(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="ai, funding, saas"
+                  required
+                  value={formData.proposed_title}
+                  onChange={(e) => updateForm('proposed_title', e.target.value)}
+                  className="input-field"
+                  placeholder="Your Startup Raises $1M Seed Round"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                  Story Summary * (aim for 60-80 words)
+                </label>
+                <textarea
+                  required
+                  rows={6}
+                  value={formData.proposed_summary}
+                  onChange={(e) => updateForm('proposed_summary', e.target.value)}
+                  className="input-field resize-none"
+                  placeholder="Write a concise, engaging summary of your news. Include key details like funding amount, investors, product features, or milestone numbers."
+                />
+                <div className="flex justify-between items-center mt-3">
+                  <p className="text-sm text-secondary-500">
+                    Word count: <span className={`font-semibold ${wordCount >= 60 && wordCount <= 80 ? 'text-success-600' : 'text-secondary-700'}`}>
+                      {wordCount}
+                    </span>
+                  </p>
+                  {wordCount > 0 && (
+                    <p className={`text-xs font-medium ${
+                      wordCount < 60 ? 'text-warning-600' : 
+                      wordCount > 80 ? 'text-error-600' : 
+                      'text-success-600'
+                    }`}>
+                      {wordCount < 60 ? `Add ${60 - wordCount} more words` : 
+                       wordCount > 80 ? `Remove ${wordCount - 80} words` : 
+                       'Perfect length!'}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                    Category *
+                  </label>
+                  <select
+                    required
+                    value={formData.proposed_category}
+                    onChange={(e) => updateForm('proposed_category', e.target.value)}
+                    className="input-field"
+                  >
+                    {categories.map(category => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-secondary-700 mb-3">
+                    Tags (comma-separated)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.proposed_tags.join(', ')}
+                    onChange={(e) => handleTagsChange(e.target.value)}
+                    className="input-field"
+                    placeholder="ai, funding, saas"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Guidelines */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-medium text-blue-900 mb-2">Submission Guidelines</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Stories should be newsworthy and recent (within 30 days)</li>
-                <li>• Include specific details like funding amounts, user numbers, or product features</li>
-                <li>• Avoid overly promotional language</li>
-                <li>• Ensure you have permission to share the information</li>
-                <li>• Include credible sources when possible</li>
+            <div className="bg-primary-50 border border-primary-200 rounded-2xl p-6">
+              <h3 className="font-semibold text-primary-900 mb-4 flex items-center space-x-2">
+                <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Submission Guidelines</span>
+              </h3>
+              <ul className="text-sm text-primary-800 space-y-2">
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-600 mt-1">•</span>
+                  <span>Stories should be newsworthy and recent (within 30 days)</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-600 mt-1">•</span>
+                  <span>Include specific details like funding amounts, user numbers, or product features</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-600 mt-1">•</span>
+                  <span>Avoid overly promotional language</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-600 mt-1">•</span>
+                  <span>Ensure you have permission to share the information</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-primary-600 mt-1">•</span>
+                  <span>Include credible sources when possible</span>
+                </li>
               </ul>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-lg"
+              className="btn-primary w-full text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
