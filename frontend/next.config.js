@@ -20,7 +20,8 @@ module.exports = (phase) => {
     },
     experimental: {
       esmExternals: false,
-      optimizeCss: true,
+      // Disable CSS optimization that uses 'critters' to avoid needing that module
+      optimizeCss: false,
     },
     compiler: {
       removeConsole: process.env.NODE_ENV === 'production',
