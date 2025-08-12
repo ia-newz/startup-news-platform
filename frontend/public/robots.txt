@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://startup-news-frontend.onrender.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/
+
+# Allow important pages
+Allow: /
+Allow: /trending
+Allow: /companies
+Allow: /submit
+Allow: /demo
+
+# Crawl delay
+Crawl-delay: 1
