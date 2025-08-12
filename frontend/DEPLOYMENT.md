@@ -48,6 +48,8 @@ NEXT_PUBLIC_APP_URL=https://startup-news-frontend.onrender.com
 
 ## Docker Deployment
 
+### Multi-Stage Production Build
+
 1. **Build Docker Image:**
    ```bash
    docker build -t innovations-arena-frontend .
@@ -57,6 +59,69 @@ NEXT_PUBLIC_APP_URL=https://startup-news-frontend.onrender.com
    ```bash
    docker run -p 3000:3000 innovations-arena-frontend
    ```
+
+### Development Build
+
+1. **Build Development Image:**
+   ```bash
+   docker build -f Dockerfile.dev -t innovations-arena-frontend:dev .
+   ```
+
+2. **Run Development Container:**
+   ```bash
+   docker run -p 3000:3000 -v $(pwd):/app innovations-arena-frontend:dev
+   ```
+
+### Using Docker Compose
+
+1. **Development:**
+   ```bash
+   docker-compose up frontend-dev
+   ```
+
+2. **Production:**
+   ```bash
+   docker-compose up frontend-prod
+   ```
+
+## Docker Troubleshooting
+
+### Common Build Issues
+
+1. **"process /bin/sh -c npm run build did not complete successfully"**
+   
+   **Solution:** The multi-stage Dockerfile has been fixed to:
+   - Install all dependencies before building
+   - Use proper Alpine Linux compatibility
+   - Separate build and production stages
+
+2. **Memory Issues During Build**
+   
+   **Solution:** Increase Docker memory allocation:
+   ```bash
+   docker build --memory=4g -t innovations-arena-frontend .
+   ```
+
+3. **Node Modules Issues**
+   
+   **Solution:** Clear Docker cache and rebuild:
+   ```bash
+   docker system prune -a
+   docker build --no-cache -t innovations-arena-frontend .
+   ```
+
+### Build Commands
+
+```bash
+# Clean build (recommended for production)
+docker build --no-cache -t innovations-arena-frontend .
+
+# Build with specific platform
+docker build --platform linux/amd64 -t innovations-arena-frontend .
+
+# Build with build arguments
+docker build --build-arg NODE_ENV=production -t innovations-arena-frontend .
+```
 
 ## Render.com Deployment
 
@@ -103,6 +168,7 @@ NEXT_PUBLIC_APP_URL=https://startup-news-frontend.onrender.com
    - Check Node.js version (requires 18+)
    - Verify all dependencies are installed
    - Check environment variable configuration
+   - Use the fixed multi-stage Dockerfile
 
 2. **Runtime Errors:**
    - Verify backend services are accessible
@@ -114,6 +180,28 @@ NEXT_PUBLIC_APP_URL=https://startup-news-frontend.onrender.com
    - Check bundle size with `npm run build`
    - Monitor Core Web Vitals
 
+4. **Docker Issues:**
+   - Ensure sufficient memory allocation
+   - Use the updated Dockerfile
+   - Clear Docker cache if needed
+   - Check for platform compatibility
+
+### Docker Debugging
+
+```bash
+# Check container logs
+docker logs <container_id>
+
+# Enter running container
+docker exec -it <container_id> /bin/sh
+
+# Check container resources
+docker stats <container_id>
+
+# Inspect container
+docker inspect <container_id>
+```
+
 ### Support:
 
 For deployment issues, check:
@@ -121,3 +209,4 @@ For deployment issues, check:
 - Render.com documentation
 - Docker documentation
 - Environment variable configuration
+- Updated Dockerfile and docker-compose files
