@@ -344,3 +344,7 @@ export default function Submit() {
     </div>
   )
 }
+
+export async function getServerSideProps() {
+  return { props: {} }
+}
