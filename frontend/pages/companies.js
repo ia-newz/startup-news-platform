@@ -431,3 +431,7 @@ export default function Companies() {
     </StaticExportWrapper>
   )
 }
+
+export async function getServerSideProps() {
+  return { props: {} }
+}
