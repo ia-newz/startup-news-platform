@@ -391,3 +391,7 @@ export default function BulkImport() {
     </div>
   )
 }
+
+export async function getServerSideProps() {
+  return { props: {} }
+}
