@@ -1,440 +1,402 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 
 export default function Demo() {
+  const [activeTab, setActiveTab] = useState('features')
+  const [demoStories] = useState([
+    {
+      id: 1,
+      title: "AI Startup Raises $25M Series A",
+      summary: "Revolutionary artificial intelligence company secures major funding to accelerate product development and expand into new markets.",
+      category: "funding",
+      published_date: new Date().toISOString(),
+      image_url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
+      likes: 89,
+      views: 456,
+      companies: [{ name: "AI Innovations", slug: "ai-innovations" }]
+    },
+    {
+      id: 2,
+      title: "Fintech Platform Launches Mobile App",
+      summary: "Leading financial technology company introduces new mobile application with advanced security features and seamless user experience.",
+      category: "product",
+      published_date: new Date(Date.now() - 86400000).toISOString(),
+      image_url: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop",
+      likes: 67,
+      views: 234,
+      companies: [{ name: "FinTech Solutions", slug: "fintech-solutions" }]
+    }
+  ])
+
+  const features = [
+    {
+      icon: "📰",
+      title: "Latest News",
+      description: "Stay updated with real-time startup news and funding announcements"
+    },
+    {
+      icon: "🔥",
+      title: "Trending Stories",
+      description: "Discover the most engaging content based on community engagement"
+    },
+    {
+      icon: "🏢",
+      title: "Company Directory",
+      description: "Explore innovative startups across various industries"
+    },
+    {
+      icon: "📝",
+      title: "Story Submission",
+      description: "Share your startup's news and milestones with our community"
+    },
+    {
+      icon: "📱",
+      title: "Mobile Optimized",
+      description: "Perfect experience across all devices and screen sizes"
+    },
+    {
+      icon: "⚡",
+      title: "Fast & Responsive",
+      description: "Lightning-fast loading times and smooth interactions"
+    }
+  ]
+
+  const stats = [
+    { number: "500+", label: "Startup Stories" },
+    { number: "100+", label: "Companies" },
+    { number: "50K+", label: "Monthly Readers" },
+    { number: "95%", label: "User Satisfaction" }
+  ]
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50">
       <Head>
-        <title>Design System Demo - Innovations Arena</title>
-        <meta name="description" content="Explore the design system components, colors, and UI elements" />
+        <title>Demo - Innovations Arena</title>
+        <meta name="description" content="Explore the features and capabilities of our startup news platform" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="keywords" content="startup news platform demo, features, capabilities" />
+        <meta property="og:title" content="Demo - Innovations Arena" />
+        <meta property="og:description" content="Explore the features and capabilities of our startup news platform" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://startup-news-frontend.onrender.com/demo" />
       </Head>
 
       {/* Header */}
       <header className="glass border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-10 h-10 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-medium group-hover:shadow-large transition-all duration-300 transform group-hover:scale-110">
-                <span className="text-white font-bold text-lg">IA</span>
-              </div>
-              <div>
-                <span className="text-2xl font-bold text-gradient">Innovations Arena</span>
-                <p className="text-xs text-secondary-600 -mt-1">Design System Demo</p>
-              </div>
-            </Link>
-            <Link href="/" className="btn-secondary">
-              Back to Home
-            </Link>
-          </div>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="w-10 h-10 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-medium group-hover:shadow-large transition-all duration-300 transform group-hover:scale-110">
+              <span className="text-white font-bold text-lg">IA</span>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-gradient">Innovations Arena</span>
+              <p className="text-xs text-secondary-600 -mt-1">Startup News Platform</p>
+            </div>
+          </Link>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Hero Section */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary-900 mb-4">
-            Design System <span className="text-gradient">Showcase</span>
+        <div className="text-center mb-12 sm:mb-16 animate-fade-in">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary-900 mb-6">
+            Platform <span className="text-gradient">Demo</span>
           </h1>
-          <p className="text-lg sm:text-xl text-secondary-600 max-w-3xl mx-auto leading-relaxed">
-            Explore the components, colors, and design tokens that power Innovations Arena
+          <p className="text-lg sm:text-xl text-secondary-600 max-w-3xl mx-auto leading-relaxed mb-8">
+            Explore the features and capabilities that make Innovations Arena the go-to platform for startup news
           </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/" className="btn-primary">
+              View Live Platform
+            </Link>
+            <Link href="/submit" className="btn-secondary">
+              Submit Your Story
+            </Link>
+          </div>
         </div>
 
-        {/* Color Palette */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Color Palette</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Primary Colors */}
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Primary Colors</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-primary-50 rounded-lg border border-primary-200"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Primary 50</p>
-                    <p className="text-sm text-secondary-600">#f0f9ff</p>
-                  </div>
+        {/* Stats Section */}
+        <div className="mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat, index) => (
+              <div 
+                key={index}
+                className="text-center p-6 bg-white rounded-2xl shadow-soft border border-secondary-100 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">
+                  {stat.number}
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-primary-100 rounded-lg border border-primary-200"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Primary 100</p>
-                    <p className="text-sm text-secondary-600">#e0f2fe</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-primary-500 rounded-lg"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Primary 500</p>
-                    <p className="text-sm text-secondary-600">#0ea5e9</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-primary-900 rounded-lg"></div>
-                  <div>
-                    <p className="font-medium text-white">Primary 900</p>
-                    <p className="text-sm text-primary-100">#0c4a6e</p>
-                  </div>
+                <div className="text-sm text-secondary-600 font-medium">
+                  {stat.label}
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
 
-            {/* Secondary Colors */}
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Secondary Colors</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-secondary-50 rounded-lg border border-secondary-200"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Secondary 50</p>
-                    <p className="text-sm text-secondary-600">#f8fafc</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-secondary-100 rounded-lg border border-secondary-200"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Secondary 100</p>
-                    <p className="text-sm text-secondary-600">#f1f5f9</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-secondary-500 rounded-lg"></div>
-                  <div>
-                    <p className="font-medium text-white">Secondary 500</p>
-                    <p className="text-sm text-secondary-100">#64748b</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-secondary-900 rounded-lg"></div>
-                  <div>
-                    <p className="font-medium text-white">Secondary 900</p>
-                    <p className="text-sm text-secondary-100">#0f172a</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Accent Colors */}
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-secondary-900 mb-4">Accent Colors</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-accent-50 rounded-lg border border-accent-200"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Accent 50</p>
-                    <p className="text-sm text-secondary-600">#fdf4ff</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-accent-100 rounded-lg border border-accent-200"></div>
-                  <div>
-                    <p className="font-medium text-secondary-900">Accent 100</p>
-                    <p className="text-sm text-secondary-600">#fae8ff</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-accent-500 rounded-lg"></div>
-                  <div>
-                    <p className="font-medium text-white">Accent 500</p>
-                    <p className="text-sm text-accent-100">#d946ef</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-accent-900 rounded-lg"></div>
-                  <div>
-                    <p className="font-medium text-white">Accent 900</p>
-                    <p className="text-sm text-accent-100">#701a75</p>
-                  </div>
-                </div>
-              </div>
+        {/* Tabs Navigation */}
+        <div className="mb-12">
+          <div className="flex justify-center">
+            <div className="bg-white rounded-2xl p-2 shadow-soft border border-secondary-200">
+              {['features', 'demo', 'technology'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-8 py-3 rounded-xl text-sm font-semibold transition-all duration-300 capitalize ${
+                    activeTab === tab
+                      ? 'bg-primary-600 text-white shadow-medium'
+                      : 'text-secondary-600 hover:text-primary-600 hover:bg-primary-50'
+                  }`}
+                >
+                  {tab === 'features' ? 'Platform Features' : tab === 'demo' ? 'Live Demo' : 'Technology Stack'}
+                </button>
+              ))}
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Buttons */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Button Components</h2>
-          
-          <div className="card p-8">
+        {/* Tab Content */}
+        {activeTab === 'features' && (
+          <div className="animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Primary Buttons */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Primary Buttons</h3>
-                <div className="space-y-4">
-                  <button className="btn-primary w-full">Primary Button</button>
-                  <button className="btn-primary w-full text-sm py-2.5">Small Primary</button>
-                  <button className="btn-primary w-full text-lg py-4">Large Primary</button>
+              {features.map((feature, index) => (
+                <div 
+                  key={index}
+                  className="card-hover p-6 text-center group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-secondary-900 mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-secondary-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
-              </div>
-
-              {/* Secondary Buttons */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Secondary Buttons</h3>
-                <div className="space-y-4">
-                  <button className="btn-secondary w-full">Secondary Button</button>
-                  <button className="btn-secondary w-full text-sm py-2.5">Small Secondary</button>
-                  <button className="btn-secondary w-full text-lg py-4">Large Secondary</button>
-                </div>
-              </div>
-
-              {/* Accent Buttons */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Accent Buttons</h3>
-                <div className="space-y-4">
-                  <button className="btn-accent w-full">Accent Button</button>
-                  <button className="btn-accent w-full text-sm py-2.5">Small Accent</button>
-                  <button className="btn-accent w-full text-lg py-4">Large Accent</button>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-        </section>
+        )}
 
-        {/* Form Elements */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Form Elements</h2>
-          
-          <div className="card p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Input Fields */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Input Fields</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-secondary-700 mb-2">Text Input</label>
-                    <input type="text" className="input-field" placeholder="Enter text here..." />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-secondary-700 mb-2">Email Input</label>
-                    <input type="email" className="input-field" placeholder="email@example.com" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-secondary-700 mb-2">Textarea</label>
-                    <textarea rows={4} className="input-field" placeholder="Enter longer text here..."></textarea>
-                  </div>
-                </div>
-              </div>
+        {activeTab === 'demo' && (
+          <div className="animate-fade-in">
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-secondary-900 mb-6 text-center">
+                Live Story Examples
+              </h2>
+              <p className="text-secondary-600 text-center max-w-2xl mx-auto">
+                Here are some sample stories that demonstrate how content appears on our platform
+              </p>
+            </div>
 
-              {/* Select & Checkbox */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Select & Checkbox</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-secondary-700 mb-2">Select Dropdown</label>
-                    <select className="input-field">
-                      <option>Option 1</option>
-                      <option>Option 2</option>
-                      <option>Option 3</option>
-                    </select>
-                  </div>
-                  <div className="space-y-3">
-                    <label className="block text-sm font-semibold text-secondary-700 mb-2">Checkboxes</label>
-                    <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500" />
-                      <span className="text-secondary-700">Checkbox 1</span>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="w-4 h-4 text-primary-600 border-secondary-300 rounded focus:ring-primary-500" />
-                      <span className="text-secondary-700">Checkbox 2</span>
+            <div className="space-y-8">
+              {demoStories.map((story, index) => (
+                <div 
+                  key={story.id}
+                  className="card-hover animate-fade-in group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex flex-col lg:flex-row">
+                    {story.image_url && (
+                      <div className="lg:w-1/3 h-64 lg:h-auto overflow-hidden">
+                        <img 
+                          src={story.image_url} 
+                          alt={story.title} 
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+
+                    <div className="lg:w-2/3 p-6 lg:p-8">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <span className="px-3 py-1.5 rounded-full text-sm font-semibold text-white bg-primary-600">
+                          {story.category}
+                        </span>
+                        <time className="text-secondary-500 text-sm font-medium">
+                          {new Date(story.published_date).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </time>
+                      </div>
+
+                      <h3 className="text-2xl lg:text-3xl font-bold text-secondary-900 mb-4 leading-tight group-hover:text-primary-600 transition-colors">
+                        {story.title}
+                      </h3>
+
+                      <p className="text-secondary-700 text-lg leading-relaxed mb-6">
+                        {story.summary}
+                      </p>
+
+                      {story.companies && story.companies.length > 0 && (
+                        <div className="mb-6">
+                          <h4 className="text-sm font-semibold text-secondary-600 mb-3 uppercase tracking-wide">Companies Involved</h4>
+                          <div className="flex flex-wrap gap-3">
+                            {story.companies.map(company => (
+                              <Link
+                                key={company.slug}
+                                href={`/companies/${company.slug}`}
+                                className="flex items-center space-x-2 bg-secondary-50 hover:bg-primary-50 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 hover:scale-105"
+                              >
+                                <span className="font-semibold text-secondary-700">{company.name}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between pt-6 border-t border-secondary-100">
+                        <div className="flex items-center space-x-6 text-sm text-secondary-500">
+                          <span className="flex items-center space-x-2">
+                            <span className="text-xl">❤️</span>
+                            <span className="font-semibold">{story.likes}</span>
+                          </span>
+                          <span className="flex items-center space-x-2">
+                            <span className="text-xl">👁️</span>
+                            <span className="font-semibold">{story.views}</span>
+                          </span>
+                        </div>
+
+                        <span className="text-primary-600 text-sm font-semibold">
+                          Demo Content
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <p className="text-secondary-600 mb-6">
+                Ready to explore the full platform?
+              </p>
+              <Link href="/" className="btn-primary">
+                View All Stories
+              </Link>
             </div>
           </div>
-        </section>
+        )}
 
-        {/* Badges */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Badge Components</h2>
-          
-          <div className="card p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Status Badges */}
+        {activeTab === 'technology' && (
+          <div className="animate-fade-in">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Frontend */}
               <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Status Badges</h3>
-                <div className="space-y-3">
-                  <span className="badge-success">Success</span>
-                  <span className="badge-warning">Warning</span>
-                  <span className="badge-error">Error</span>
-                  <span className="badge-primary">Info</span>
-                </div>
-              </div>
-
-              {/* Category Badges */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Category Badges</h3>
-                <div className="space-y-3">
-                  <span className="badge-secondary">General</span>
-                  <span className="badge-accent">Featured</span>
-                  <span className="badge-primary">Breaking</span>
-                  <span className="badge-success">Trending</span>
-                </div>
-              </div>
-
-              {/* Custom Badges */}
-              <div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-4">Custom Badges</h3>
-                <div className="space-y-3">
-                  <span className="badge" style={{ backgroundColor: '#8b5cf6', color: 'white' }}>Custom</span>
-                  <span className="badge" style={{ backgroundColor: '#f59e0b', color: 'white' }}>Premium</span>
-                  <span className="badge" style={{ backgroundColor: '#10b981', color: 'white' }}>Verified</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Cards */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Card Components</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Basic Card */}
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-secondary-900 mb-3">Basic Card</h3>
-              <p className="text-secondary-600 mb-4">This is a basic card component with standard padding and styling.</p>
-              <button className="btn-primary w-full">Action</button>
-            </div>
-
-            {/* Hover Card */}
-            <div className="card-hover p-6">
-              <h3 className="text-lg font-semibold text-secondary-900 mb-3">Hover Card</h3>
-              <p className="text-secondary-600 mb-4">This card has hover effects with shadow and transform animations.</p>
-              <button className="btn-secondary w-full">Action</button>
-            </div>
-
-            {/* Glass Card */}
-            <div className="glass p-6 rounded-2xl">
-              <h3 className="text-lg font-semibold text-secondary-900 mb-3">Glass Card</h3>
-              <p className="text-secondary-600 mb-4">This card uses glass morphism with backdrop blur and transparency.</p>
-              <button className="btn-accent w-full">Action</button>
-            </div>
-          </div>
-        </section>
-
-        {/* Typography */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Typography</h2>
-          
-          <div className="card p-8">
-            <div className="space-y-6">
-              <div>
-                <h1 className="text-4xl font-bold text-secondary-900">Heading 1 - Large Title</h1>
-                <p className="text-secondary-600 mt-2">Used for main page titles and hero sections</p>
-              </div>
-              
-              <div>
-                <h2 className="text-3xl font-bold text-secondary-900">Heading 2 - Section Title</h2>
-                <p className="text-secondary-600 mt-2">Used for major section headings</p>
-              </div>
-              
-              <div>
-                <h3 className="text-2xl font-semibold text-secondary-900">Heading 3 - Subsection</h3>
-                <p className="text-secondary-600 mt-2">Used for subsection headings</p>
-              </div>
-              
-              <div>
-                <h4 className="text-xl font-semibold text-secondary-900">Heading 4 - Card Title</h4>
-                <p className="text-secondary-600 mt-2">Used for card and component titles</p>
-              </div>
-              
-              <div>
-                <p className="text-lg text-secondary-700 leading-relaxed">
-                  This is a large paragraph with relaxed line height. It's used for important content and descriptions that need to be easily readable.
-                </p>
-              </div>
-              
-              <div>
-                <p className="text-base text-secondary-600 leading-relaxed">
-                  This is standard body text with good readability. It's used for most content throughout the application.
-                </p>
-              </div>
-              
-              <div>
-                <p className="text-sm text-secondary-500">
-                  This is small text used for captions, metadata, and secondary information.
-                </p>
-              </div>
-              
-              <div>
-                <p className="text-gradient text-2xl font-bold">
-                  Gradient Text Example
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Animations */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Animations</h2>
-          
-          <div className="card p-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="w-20 h-20 bg-primary-100 rounded-2xl mx-auto mb-4 animate-fade-in">
-                  <div className="w-full h-full bg-primary-500 rounded-2xl flex items-center justify-center text-white font-bold">
-                    Fade In
+                <h3 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center space-x-3">
+                  <span className="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center">
+                    <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </span>
+                  <span>Frontend Technology</span>
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-soft border border-secondary-100">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <span className="text-blue-600 font-bold text-sm">R</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-secondary-900">React 18</div>
+                      <div className="text-sm text-secondary-500">Modern UI library with hooks</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-soft border border-secondary-100">
+                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                      <span className="text-green-600 font-bold text-sm">N</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-secondary-900">Next.js 14</div>
+                      <div className="text-sm text-secondary-500">Full-stack React framework</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-soft border border-secondary-100">
+                    <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center">
+                      <span className="text-cyan-600 font-bold text-sm">T</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-secondary-900">Tailwind CSS</div>
+                      <div className="text-sm text-secondary-500">Utility-first CSS framework</div>
+                    </div>
                   </div>
                 </div>
-                <p className="text-secondary-700 font-medium">Fade In Animation</p>
               </div>
-              
-              <div className="text-center">
-                <div className="w-20 h-20 bg-accent-100 rounded-2xl mx-auto mb-4 animate-slide-up">
-                  <div className="w-full h-full bg-accent-500 rounded-2xl flex items-center justify-center text-white font-bold">
-                    Slide Up
-                  </div>
-                </div>
-                <p className="text-secondary-700 font-medium">Slide Up Animation</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-20 h-20 bg-success-100 rounded-2xl mx-auto mb-4 animate-scale-in">
-                  <div className="w-full h-full bg-success-500 rounded-2xl flex items-center justify-center text-white font-bold">
-                    Scale In
-                  </div>
-                </div>
-                <p className="text-secondary-700 font-medium">Scale In Animation</p>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Gradients */}
-        <section className="mb-16">
-          <h2 className="text-3xl font-bold text-secondary-900 mb-8 text-center">Gradients</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="h-32 bg-gradient-primary rounded-2xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Primary Gradient</span>
+              {/* Backend */}
+              <div>
+                <h3 className="text-2xl font-bold text-secondary-900 mb-6 flex items-center space-x-3">
+                  <span className="w-10 h-10 bg-accent-100 rounded-xl flex items-center justify-center">
+                    <svg className="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                    </svg>
+                  </span>
+                  <span>Backend Services</span>
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-soft border border-secondary-100">
+                    <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                      <span className="text-orange-600 font-bold text-sm">P</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-secondary-900">Python FastAPI</div>
+                      <div className="text-sm text-secondary-500">High-performance web framework</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-soft border border-secondary-100">
+                    <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                      <span className="text-purple-600 font-bold text-sm">S</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-secondary-900">Supabase</div>
+                      <div className="text-sm text-secondary-500">Open-source Firebase alternative</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-soft border border-secondary-100">
+                    <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                      <span className="text-indigo-600 font-bold text-sm">D</span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-secondary-900">Docker</div>
+                      <div className="text-sm text-secondary-500">Containerized deployment</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div className="h-32 bg-gradient-secondary rounded-2xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Secondary Gradient</span>
-            </div>
-            
-            <div className="h-32 bg-gradient-accent rounded-2xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Accent Gradient</span>
-            </div>
-            
-            <div className="h-32 bg-gradient-to-r from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Custom Gradient</span>
-            </div>
-            
-            <div className="h-32 bg-gradient-to-br from-secondary-400 via-primary-500 to-accent-600 rounded-2xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">Multi-Color</span>
-            </div>
-            
-            <div className="h-32 bg-gradient-radial from-primary-400 to-transparent rounded-2xl flex items-center justify-center">
-              <span className="text-secondary-900 font-bold text-lg">Radial Gradient</span>
+
+            <div className="mt-12 text-center">
+              <div className="bg-white rounded-2xl p-8 shadow-soft border border-secondary-100">
+                <h3 className="text-2xl font-bold text-secondary-900 mb-4">
+                  Ready to Get Started?
+                </h3>
+                <p className="text-secondary-600 mb-6 max-w-2xl mx-auto">
+                  Join thousands of entrepreneurs, investors, and tech enthusiasts who rely on Innovations Arena for the latest startup news and insights.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Link href="/" className="btn-primary">
+                    Explore Platform
+                  </Link>
+                  <Link href="/submit" className="btn-secondary">
+                    Submit Story
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
+        )}
       </main>
+
+      {/* Custom Styles */}
+      <style jsx>{`
+        .animation-delay-200 {
+          animation-delay: 200ms;
+        }
+      `}</style>
     </div>
   )
 }
