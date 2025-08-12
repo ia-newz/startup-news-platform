@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 export default function BulkImport() {
+  const [mounted, setMounted] = useState(false)
   const [file, setFile] = useState(null)
   const [importing, setImporting] = useState(false)
   const [preview, setPreview] = useState(null)
@@ -12,8 +13,21 @@ export default function BulkImport() {
   const cmsServiceUrl = process.env.NEXT_PUBLIC_CMS_SERVICE_URL || 'http://localhost:8002'
 
   useEffect(() => {
+    setMounted(true)
     loadTemplate()
   }, [])
+
+  // Prevent static generation for admin pages
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading admin panel...</p>
+        </div>
+      </div>
+    )
+  }
 
   const loadTemplate = async () => {
     try {
