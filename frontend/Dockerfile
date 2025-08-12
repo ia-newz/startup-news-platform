@@ -4,6 +4,9 @@ FROM node:18-alpine AS base
 # Install dependencies needed for native modules
 RUN apk add --no-cache libc6-compat
 
+# Upgrade npm to latest LTS CLI to reduce deprecation warnings
+RUN npm i -g npm@11.5.2
+
 # Set working directory
 WORKDIR /app
 
@@ -24,6 +27,9 @@ FROM node:18-alpine AS production
 
 # Install dependencies needed for native modules
 RUN apk add --no-cache libc6-compat
+
+# Upgrade npm to latest LTS CLI to reduce deprecation warnings
+RUN npm i -g npm@11.5.2
 
 WORKDIR /app
 
