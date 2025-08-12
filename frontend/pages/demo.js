@@ -421,3 +421,7 @@ export default function Demo() {
     </StaticExportWrapper>
   )
 }
+
+export async function getServerSideProps() {
+  return { props: {} }
+}
