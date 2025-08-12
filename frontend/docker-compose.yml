@@ -18,13 +18,28 @@ services:
     networks:
       - startup-network
 
-  # Production service
+  # Production service (multi-stage)
   frontend-prod:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_FEED_SERVICE_URL=https://startup-news-feed.onrender.com
+      - NEXT_PUBLIC_CMS_SERVICE_URL=https://startup-news-cms.onrender.com
+    networks:
+      - startup-network
+    restart: unless-stopped
+
+  # Production service (simple single-stage)
+  frontend-prod-simple:
+    build:
+      context: .
+      dockerfile: Dockerfile.simple
+    ports:
+      - "3001:3000"
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_FEED_SERVICE_URL=https://startup-news-feed.onrender.com
