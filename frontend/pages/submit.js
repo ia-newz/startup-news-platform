@@ -408,3 +408,7 @@ export default function Submit() {
     </StaticExportWrapper>
   )
 }
+
+export async function getServerSideProps() {
+  return { props: {} }
+}
