@@ -135,22 +135,39 @@ export default function BulkImport() {
             </p>
           </div>
 
-          {/* Template Download */}
-          <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6 mb-8">
-            <h2 className="text-xl font-semibold text-secondary-900 mb-4">
-              📋 Download Template
-            </h2>
-            <p className="text-secondary-600 mb-4">
-              Download our Excel template to ensure your data is formatted correctly. 
-              The template includes sample data and column headers.
-            </p>
-            <button
-              onClick={downloadTemplate}
-              className="btn-secondary"
-            >
-              📥 Download CSV Template
-            </button>
-          </div>
+                     {/* Template Download */}
+           <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6 mb-8">
+             <h2 className="text-xl font-semibold text-secondary-900 mb-4">
+               📋 Download Template
+             </h2>
+             <p className="text-secondary-600 mb-4">
+               Download our Excel template to ensure your data is formatted correctly. 
+               The template includes sample data and column headers.
+             </p>
+             <button
+               onClick={downloadTemplate}
+               className="btn-secondary"
+             >
+               📥 Download CSV Template
+             </button>
+           </div>
+
+           {/* Temporary Notice */}
+           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+             <div className="flex items-center space-x-2 mb-4">
+               <span className="text-yellow-600 text-2xl">⚠️</span>
+               <h3 className="text-lg font-semibold text-yellow-800">
+                 Temporary Notice
+               </h3>
+             </div>
+             <p className="text-yellow-700 mb-4">
+               File upload functionality is being updated for better compatibility. 
+               For now, please use the single story submission form to add content.
+             </p>
+             <Link href="/submit" className="btn-primary">
+               Add Single Story
+             </Link>
+           </div>
 
           {/* Upload Section */}
           <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6 mb-8">
