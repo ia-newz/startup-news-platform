@@ -169,6 +169,9 @@ export default function Home() {
                 <Link href="/submit" className="btn-primary">
                   Submit Story
                 </Link>
+                <Link href="/admin" className="text-secondary-600 hover:text-primary-600 font-medium transition-colors">
+                  Admin
+                </Link>
               </nav>
 
               {/* Mobile Menu Button */}
@@ -193,6 +196,9 @@ export default function Home() {
                   <Link href="/companies" className="text-secondary-600">Companies</Link>
                   <Link href="/submit" className="btn-primary text-center">
                     Submit Story
+                  </Link>
+                  <Link href="/admin" className="text-secondary-600">
+                    Admin
                   </Link>
                 </div>
               </div>

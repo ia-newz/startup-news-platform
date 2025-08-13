@@ -1,350 +1,247 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import StaticExportWrapper from '../../components/StaticExportWrapper'
 
-export default function Submit() {
-  const [formData, setFormData] = useState({
-    founder_name: '',
-    founder_email: '',
-    company_name: '',
-    company_website: '',
-    proposed_title: '',
-    proposed_summary: '',
-    proposed_category: 'general',
-    proposed_tags: []
+export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    totalStories: 0,
+    totalCategories: 0,
+    recentStories: []
   })
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [categories, setCategories] = useState([])
-  const [wordCount, setWordCount] = useState(0)
-  const [mounted, setMounted] = useState(false)
-
-  const cmsServiceUrl = process.env.NEXT_PUBLIC_CMS_SERVICE_URL || 'http://localhost:8002'
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setMounted(true)
-    if (mounted) {
-      loadCategories()
-    }
-  }, [mounted])
+    loadDashboardStats()
+  }, [])
 
-  const loadCategories = async () => {
+  const loadDashboardStats = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'http://localhost:8000'}/categories`)
-      const data = await response.json()
-      setCategories(data.categories || [])
-    } catch (error) {
-      console.error('Error loading categories:', error)
-      // Set default categories if API fails
-      setCategories([
-        { id: 'general', name: 'General', color: '#6b7280' },
-        { id: 'funding', name: 'Funding', color: '#10b981' },
-        { id: 'product', name: 'Product Launch', color: '#3b82f6' },
-        { id: 'acquisition', name: 'Acquisition', color: '#8b5cf6' },
-        { id: 'ipo', name: 'IPO', color: '#f59e0b' },
-        { id: 'partnership', name: 'Partnership', color: '#ef4444' }
-      ])
-    }
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-
-    try {
-      const response = await fetch(`${cmsServiceUrl}/submissions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      })
-
+      const response = await fetch('/api/admin/stats')
       if (response.ok) {
-        setSubmitted(true)
-      } else {
-        const error = await response.json()
-        alert('Error submitting story: ' + (error.detail || 'Please try again'))
+        const data = await response.json()
+        setStats(data)
       }
     } catch (error) {
-      console.error('Error:', error)
-      alert('Error submitting story. Please try again.')
+      console.error('Error loading dashboard stats:', error)
     } finally {
       setLoading(false)
     }
   }
 
-  const updateForm = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-    
-    if (field === 'proposed_summary') {
-      const words = value.trim() ? value.trim().split(/\s+/).length : 0
-      setWordCount(words)
-    }
-  }
-
-  const handleTagsChange = (value) => {
-    const tags = value.split(',').map(tag => tag.trim()).filter(tag => tag)
-    updateForm('proposed_tags', tags)
-  }
-
-  // Prevent static generation for admin pages
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading admin panel...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (submitted) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
-          <div className="text-green-600 text-6xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Story Submitted!</h2>
-          <p className="text-gray-600 mb-6">
-            Thank you for your submission. Our editorial team will review it and publish if approved.
-            You'll receive an email notification about the status.
-          </p>
-          <div className="space-y-3">
-            <Link
-              href="/"
-              className="block w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Back to Stories
-            </Link>
-            <button
-              onClick={() => {
-                setSubmitted(false)
-                setFormData({
-                  founder_name: '',
-                  founder_email: '',
-                  company_name: '',
-                  company_website: '',
-                  proposed_title: '',
-                  proposed_summary: '',
-                  proposed_category: 'general',
-                  proposed_tags: []
-                })
-                setWordCount(0)
-              }}
-              className="block w-full text-gray-600 hover:text-gray-800 transition-colors"
-            >
-              Submit Another Story
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>Submit Your Startup Story - StartupSnaps</title>
-        <meta name="description" content="Share your startup's latest news, funding, product launches, and milestones" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+    <StaticExportWrapper>
+      <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50">
+        <Head>
+          <title>Admin Dashboard | Innovations Arena</title>
+          <meta name="description" content="Admin dashboard for startup news platform" />
+        </Head>
 
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
+        {/* Header */}
+        <header className="glass sticky top-0 z-50 border-b border-white/20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <Link href="/" className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-primary rounded-2xl flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">IA</span>
+                </div>
+                <span className="text-xl font-bold text-gradient">Innovations Arena</span>
+              </Link>
+
+              <nav className="flex items-center space-x-6">
+                <Link href="/" className="text-secondary-600 hover:text-primary-600 transition-colors">
+                  View Site
+                </Link>
+                <span className="text-primary-600 font-medium">Admin Dashboard</span>
+              </nav>
             </div>
-            <span className="text-xl font-bold text-gray-900">StartupSnaps</span>
-          </Link>
-        </div>
-      </header>
+          </div>
+        </header>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
-          {/* Header */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Dashboard Header */}
           <div className="mb-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Submit Your Startup Story</h1>
-            <p className="text-gray-600 leading-relaxed">
-              Share your startup's latest news, funding rounds, product launches, and milestones with our community. 
-              Stories are reviewed by our editorial team before publishing.
+            <h1 className="text-3xl font-bold text-secondary-900 mb-2">
+              Admin Dashboard
+            </h1>
+            <p className="text-secondary-600">
+              Manage your startup news platform content and analytics
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Personal Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Your Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.founder_name}
-                  onChange={(e) => updateForm('founder_name', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="John Doe"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={formData.founder_email}
-                  onChange={(e) => updateForm('founder_email', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="john@startup.com"
-                />
-              </div>
-            </div>
-
-            {/* Company Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Company Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.company_name}
-                  onChange={(e) => updateForm('company_name', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="Your Startup Inc."
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Company Website
-                </label>
-                <input
-                  type="url"
-                  value={formData.company_website}
-                  onChange={(e) => updateForm('company_website', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="https://yourstartup.com"
-                />
-              </div>
-            </div>
-
-            {/* Story Information */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Story Title *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.proposed_title}
-                onChange={(e) => updateForm('proposed_title', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                placeholder="Your Startup Raises $1M Seed Round"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Story Summary * (aim for 60-80 words)
-              </label>
-              <textarea
-                required
-                rows={5}
-                value={formData.proposed_summary}
-                onChange={(e) => updateForm('proposed_summary', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
-                placeholder="Write a concise, engaging summary of your news. Include key details like funding amount, investors, product features, or milestone numbers."
-              />
-              <div className="flex justify-between items-center mt-2">
-                <p className="text-sm text-gray-500">
-                  Word count: <span className={`font-medium ${wordCount >= 60 && wordCount <= 80 ? 'text-green-600' : 'text-gray-700'}`}>
-                    {wordCount}
-                  </span>
-                </p>
-                {wordCount > 0 && (
-                  <p className="text-xs text-gray-500">
-                    {wordCount < 60 ? `Add ${60 - wordCount} more words` : wordCount > 80 ? `Remove ${wordCount - 80} words` : 'Perfect length!'}
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-secondary-600 text-sm font-medium">Total Stories</p>
+                  <p className="text-3xl font-bold text-secondary-900">
+                    {loading ? '...' : stats.totalStories}
                   </p>
-                )}
+                </div>
+                <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">📰</span>
+                </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Category *
-                </label>
-                <select
-                  required
-                  value={formData.proposed_category}
-                  onChange={(e) => updateForm('proposed_category', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+            <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-secondary-600 text-sm font-medium">Categories</p>
+                  <p className="text-3xl font-bold text-secondary-900">
+                    {loading ? '...' : stats.totalCategories}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">🏷️</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-secondary-600 text-sm font-medium">Platform Status</p>
+                  <p className="text-3xl font-bold text-green-600">Active</p>
+                </div>
+                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl">✅</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6">
+              <h2 className="text-xl font-semibold text-secondary-900 mb-4">
+                🚀 Quick Actions
+              </h2>
+              <div className="space-y-3">
+                <Link 
+                  href="/admin/bulk-import"
+                  className="flex items-center space-x-3 p-3 rounded-xl hover:bg-primary-50 transition-colors group"
                 >
-                  {categories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center group-hover:bg-primary-200 transition-colors">
+                    <span className="text-primary-600 text-lg">📤</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-secondary-900">Bulk Import Stories</p>
+                    <p className="text-sm text-secondary-600">Upload multiple stories via Excel</p>
+                  </div>
+                </Link>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Tags (comma-separated)
-                </label>
-                <input
-                  type="text"
-                  value={formData.proposed_tags.join(', ')}
-                  onChange={(e) => handleTagsChange(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="ai, funding, saas"
-                />
+                <Link 
+                  href="/submit"
+                  className="flex items-center space-x-3 p-3 rounded-xl hover:bg-primary-50 transition-colors group"
+                >
+                  <div className="w-10 h-10 bg-accent-100 rounded-lg flex items-center justify-center group-hover:bg-accent-200 transition-colors">
+                    <span className="text-accent-600 text-lg">✏️</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-secondary-900">Add Single Story</p>
+                    <p className="text-sm text-secondary-600">Create a new story manually</p>
+                  </div>
+                </Link>
+
+                <Link 
+                  href="/companies"
+                  className="flex items-center space-x-3 p-3 rounded-xl hover:bg-primary-50 transition-colors group"
+                >
+                  <div className="w-10 h-10 bg-secondary-100 rounded-lg flex items-center justify-center group-hover:bg-secondary-200 transition-colors">
+                    <span className="text-secondary-600 text-lg">🏢</span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-secondary-900">Manage Companies</p>
+                    <p className="text-sm text-secondary-600">View and edit company data</p>
+                  </div>
+                </Link>
               </div>
             </div>
 
-            {/* Guidelines */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="font-medium text-blue-900 mb-2">Submission Guidelines</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Stories should be newsworthy and recent (within 30 days)</li>
-                <li>• Include specific details like funding amounts, user numbers, or product features</li>
-                <li>• Avoid overly promotional language</li>
-                <li>• Ensure you have permission to share the information</li>
-                <li>• Include credible sources when possible</li>
-              </ul>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-lg"
-            >
+            <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6">
+              <h2 className="text-xl font-semibold text-secondary-900 mb-4">
+                📊 Recent Activity
+              </h2>
               {loading ? (
-                <span className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Submitting...
-                </span>
+                <div className="flex items-center justify-center py-8">
+                  <div className="w-6 h-6 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+                </div>
               ) : (
-                'Submit Story'
+                <div className="space-y-3">
+                  {stats.recentStories && stats.recentStories.length > 0 ? (
+                    stats.recentStories.slice(0, 5).map((story, index) => (
+                      <div key={index} className="flex items-center space-x-3 p-3 rounded-xl hover:bg-secondary-50 transition-colors">
+                        <div className="w-8 h-8 bg-secondary-100 rounded-lg flex items-center justify-center">
+                          <span className="text-secondary-600 text-sm">{index + 1}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-secondary-900 truncate">
+                            {story.title}
+                          </p>
+                          <p className="text-sm text-secondary-600">
+                            {new Date(story.published_date).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <span 
+                          className="px-2 py-1 rounded-full text-xs font-semibold text-white"
+                          style={{ backgroundColor: story.category === 'funding' ? '#10b981' : '#3b82f6' }}
+                        >
+                          {story.category}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-secondary-500">
+                      <span className="text-4xl mb-4 block">📰</span>
+                      <p>No recent stories</p>
+                    </div>
+                  )}
+                </div>
               )}
-            </button>
-          </form>
-        </div>
-      </main>
-    </div>
-  )
-}
+            </div>
+          </div>
 
-export async function getServerSideProps() {
-  return { props: {} }
+          {/* Admin Tools */}
+          <div className="bg-white rounded-2xl shadow-soft border border-secondary-100 p-6">
+            <h2 className="text-xl font-semibold text-secondary-900 mb-4">
+              🛠️ Admin Tools
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 border border-secondary-200 rounded-xl">
+                <h3 className="font-medium text-secondary-900 mb-2">Content Management</h3>
+                <p className="text-sm text-secondary-600 mb-3">
+                  Manage stories, categories, and company data
+                </p>
+                <Link href="/admin/bulk-import" className="text-primary-600 hover:text-primary-800 text-sm font-medium">
+                  Manage Content →
+                </Link>
+              </div>
+
+              <div className="p-4 border border-secondary-200 rounded-xl">
+                <h3 className="font-medium text-secondary-900 mb-2">Analytics</h3>
+                <p className="text-sm text-secondary-600 mb-3">
+                  View platform usage and engagement metrics
+                </p>
+                <span className="text-secondary-400 text-sm font-medium">
+                  Coming Soon
+                </span>
+              </div>
+
+              <div className="p-4 border border-secondary-200 rounded-xl">
+                <h3 className="font-medium text-secondary-900 mb-2">Settings</h3>
+                <p className="text-sm text-secondary-600 mb-3">
+                  Configure platform settings and preferences
+                </p>
+                <span className="text-secondary-400 text-sm font-medium">
+                  Coming Soon
+                </span>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </StaticExportWrapper>
+  )
 }
