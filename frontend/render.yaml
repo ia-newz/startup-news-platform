@@ -2,14 +2,10 @@ services:
   - type: web
     name: startup-news-frontend
     env: node
-    buildCommand: rm -rf node_modules package-lock.json && npm install --legacy-peer-deps && npm run build
+    buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_FEED_SERVICE_URL
         value: https://startup-news-feed.onrender.com
-      - key: NEXT_PUBLIC_CMS_SERVICE_URL
-        value: https://startup-news-cms.onrender.com
-      - key: NEXT_PUBLIC_TIMELINE_SERVICE_URL
-        value: https://startup-news-timeline.onrender.com
