@@ -5,8 +5,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Next.js build output
-.next
-out
+#.next
+#out
 
 # Environment files
 .env
