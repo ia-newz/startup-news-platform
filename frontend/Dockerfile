@@ -4,11 +4,11 @@
 FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm ci
 
 # Copy the rest of the frontend folder
-COPY frontend/ ./
+COPY . ./
 
 # 2) Build
 FROM node:20-alpine AS builder
