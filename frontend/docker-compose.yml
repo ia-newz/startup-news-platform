@@ -4,7 +4,7 @@ services:
   # Development service
   frontend-dev:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
@@ -21,7 +21,7 @@ services:
   # Production service (multi-stage)
   frontend-prod:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -36,7 +36,7 @@ services:
   # Production service (simple single-stage)
   frontend-prod-simple:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.simple
     ports:
       - "3001:3000"
