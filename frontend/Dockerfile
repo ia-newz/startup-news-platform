@@ -5,7 +5,7 @@ FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the frontend folder
 COPY frontend/ ./
