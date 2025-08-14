@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-news-feed.onrender.com'
+    const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-feed-service.onrender.com'
 
     // Fetch stories for stats
     const storiesResponse = await fetch(`${feedServiceUrl}/stories`)

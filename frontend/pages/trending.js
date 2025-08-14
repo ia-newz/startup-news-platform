@@ -10,7 +10,7 @@ export default function Trending() {
   const [timeframe, setTimeframe] = useState('week')
   const [mounted, setMounted] = useState(false)
 
-  const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-news-feed.onrender.com'
+  const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-feed-service.onrender.com'
 
   useEffect(() => {
     setMounted(true)

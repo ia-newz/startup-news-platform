@@ -12,7 +12,7 @@ export default function Companies() {
   const [mounted, setMounted] = useState(false)
   const [error, setError] = useState(null)
 
-  const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-news-feed.onrender.com'
+  const feedServiceUrl = process.env.NEXT_PUBLIC_FEED_SERVICE_URL || 'https://startup-feed-service.onrender.com'
 
   useEffect(() => {
     setMounted(true)
