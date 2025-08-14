@@ -29,4 +29,5 @@ COPY --from=builder /app/.next/ ./.next
 
 USER nextjs
 EXPOSE 3000
-CMD ["node", "server.js"]
+
+CMD ["npm", "start"]
