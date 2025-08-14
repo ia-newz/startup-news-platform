@@ -1,0 +1,26 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\LENOVO\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.5.2
+2 info using node@v22.18.0
+3 silly config load:file:C:\Users\LENOVO\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:c:\Users\LENOVO\Documents\GitHub\startup-news-platform\frontend\.npmrc
+5 warn config optional Use `--omit=optional` to exclude optional dependencies, or
+5 warn config `--include=optional` to include them.
+5 warn config
+5 warn config       Default value does install optional deps unless otherwise omitted.
+6 warn Unknown project config "override-resolutions". This will stop working in the next major version of npm.
+7 silly config load:file:C:\Users\LENOVO\.npmrc
+8 silly config load:file:C:\Users\LENOVO\AppData\Roaming\npm\etc\npmrc
+9 verbose title npm view autoprefixer description dist-tags.latest homepage version time
+10 verbose argv "view" "--json" "--" "autoprefixer" "description" "dist-tags.latest" "homepage" "version" "time"
+11 verbose logfile logs-max:10 dir:c:\Users\LENOVO\Documents\GitHub\startup-news-platform\frontend\.npm-cache\_logs\2025-08-14T06_16_22_674Z-
+12 verbose logfile c:\Users\LENOVO\Documents\GitHub\startup-news-platform\frontend\.npm-cache\_logs\2025-08-14T06_16_22_674Z-debug-0.log
+13 warn using --force Recommended protections disabled.
+14 silly logfile start cleaning logs, removing 1 files
+15 silly logfile done cleaning log files
+16 http fetch GET 200 https://registry.npmjs.org/autoprefixer 242ms (cache revalidated)
+17 verbose cwd c:\Users\LENOVO\Documents\GitHub\startup-news-platform\frontend
+18 verbose os Windows_NT 10.0.26100
+19 verbose node v22.18.0
+20 verbose npm  v11.5.2
+21 verbose exit 0
+22 info ok
